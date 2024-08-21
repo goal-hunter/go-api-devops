@@ -5,10 +5,11 @@ name: CI Pipeline for Go Project
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
+  workflow_dispatch:
 
 jobs:
   lint:
