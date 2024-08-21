@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: go-api-pod
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  name: ""
+  nginx:
+    # settings for ingress controller if needed
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  DB_HOST: "aws-0-us-west-1.pooler.supabase.com"
+  DB_PORT: "6543"  # Use the port provided by your cloud service
+  DB_USER: "ypostgres.maqaoisdvzuvcgxaxkpi"
+  DB_PASSWORD: "Winder#0925@"
+  DB_NAME: "postgres"

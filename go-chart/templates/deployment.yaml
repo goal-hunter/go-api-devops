@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-api-pod
+  template:
+    metadata:
+      labels:
+        app: go-api-pod
+    spec:
+      containers:
+      - name: go-api-pod
+        image: localhost:5000/go-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_HOST
+          value: "aws-0-us-west-1.pooler.supabase.com"
+        - name: DB_PORT
+          value: "6543"  # Use the port provided by your cloud service
+        - name: DB_USER
+          value: "postgres.maqaoisdvzuvcgxaxkpi"
+        - name: DB_PASSWORD
+          value: "Winder#0925@"
+        - name: DB_NAME
+          value: "postgres"
