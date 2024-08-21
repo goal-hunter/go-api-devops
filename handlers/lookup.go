@@ -45,6 +45,11 @@ func LookupHandler(db *sql.DB) http.HandlerFunc {
         }
 
         response := LookupResponse{IPs: ipv4s}
-        json.NewEncoder(w).Encode(response)
+        
+        if err := json.NewEncoder(w).Encode(response); err != nil {
+            logrus.Errorf("Failed to encode response: %v", err)
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
     }
 }

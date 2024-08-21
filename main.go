@@ -25,15 +25,16 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
         Date:       time.Now().Unix(),
         Kubernetes: isKubernetes(),
     }
-    json.NewEncoder(w).Encode(response)
+
+    if err := json.NewEncoder(w).Encode(response); err != nil {
+        logrus.Errorf("Failed to encode response: %v", err)
+        http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+    }
 }
 
 func isKubernetes() bool {
-    // Check if running in Kubernetes by looking for the presence of environment variables
-    if os.Getenv("KUBERNETES_SERVICE_HOST") != "" {
-        return true
-    }
-    return false
+    // Check if running in Kubernetes by looking for the presence of an environment variable
+    return os.Getenv("KUBERNETES_SERVICE_HOST") != ""
 }
 
 func main() {

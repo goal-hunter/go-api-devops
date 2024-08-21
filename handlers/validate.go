@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "net"
     "net/http"
+    "github.com/sirupsen/logrus"
 )
 
 type ValidateRequest struct {
@@ -26,6 +27,12 @@ func ValidateHandler() http.HandlerFunc {
         isValid := ip != nil && ip.To4() != nil
 
         response := ValidateResponse{Valid: isValid}
-        json.NewEncoder(w).Encode(response)
+
+        w.Header().Set("Content-Type", "application/json")
+
+        if err := json.NewEncoder(w).Encode(response); err != nil {
+            logrus.Errorf("Failed to encode response: %v", err)
+            http.Error(w, "Failed to process response", http.StatusInternalServerError)
+        }
     }
 }

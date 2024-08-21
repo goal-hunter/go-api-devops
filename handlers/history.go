@@ -36,6 +36,10 @@ func HistoryHandler(db *sql.DB) http.HandlerFunc {
             history = append(history, HistoryResponse{Domain: domain, Result: []string{result}, QueriedAt: queriedAt})
         }
 
-        json.NewEncoder(w).Encode(history)
+        if err := json.NewEncoder(w).Encode(history); err != nil {
+            logrus.Errorf("Failed to encode response: %v", err)
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
     }
 }
