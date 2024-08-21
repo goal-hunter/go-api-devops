@@ -26,12 +26,12 @@ jobs:
         go-version: 1.23
 
     - name: Install golangci-lint
-      run: go env GOPATH
-      run: export GOPATH=$HOME/go
-      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      # run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      run: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.18.0
 
     - name: Run linter
-      run: golangci-lint run
+      # run: golangci-lint run
+      run: $(go env GOPATH)/bin/golangci-lint run
 
   test:
     name: Run Tests
@@ -44,7 +44,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: 1.20
+        go-version: 1.23
 
     - name: Run tests
       run: go test ./...
