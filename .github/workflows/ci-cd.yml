@@ -31,7 +31,6 @@ jobs:
 
     - name: Run linter
       # run: golangci-lint run
-      run: golangci-lint version
       run: $(go env GOPATH)/bin/golangci-lint run
 
   test:
